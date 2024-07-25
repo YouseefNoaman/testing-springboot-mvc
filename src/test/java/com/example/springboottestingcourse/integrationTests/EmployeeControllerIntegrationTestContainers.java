@@ -28,26 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@Testcontainers
-public class EmployeeControllerIntegrationTestContainers {
-
-    @Container
-    @ServiceConnection
-    /*
-    @ServiceConnection This annotation also comes from the Testcontainers library and it tells Testcontainers
-    that the container represented by mySQLContainer should be connected to the application under test.
-    This means that Testcontainers will automatically configure your application to use the MySQL instance
-    running in the container.
-     */
-    private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:latest")
-            .withUsername("user").withPassword("root").withDatabaseName("ems");
-
-    @DynamicPropertySource
-    public static void dynamicPropertySource(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", mysql::getJdbcUrl);
-        registry.add("spring.datasource.password", mysql::getPassword);
-        registry.add("spring.datasource.username", mysql::getUsername);
-    }
+public class EmployeeControllerIntegrationTestContainers extends AbstractionBaseTest {
 
     @Autowired
     private MockMvc mockMvc;

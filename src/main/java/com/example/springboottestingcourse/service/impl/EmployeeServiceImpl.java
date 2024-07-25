@@ -5,7 +5,6 @@ import com.example.springboottestingcourse.model.Employee;
 import com.example.springboottestingcourse.repository.EmployeeRepository;
 import com.example.springboottestingcourse.service.EmployeeService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDB.get().setEmail(employee.getEmail());
         employeeDB.get().setFirstname(employee.getFirstname());
         employeeDB.get().setLastname(employee.getLastname());
-        saveEmployee(employeeDB.get());
+        employeeRepository.save(employeeDB.get());
         return employeeDB;
     }
 

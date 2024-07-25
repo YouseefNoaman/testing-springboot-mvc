@@ -39,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Optional<Employee> updateEmployee(Long id, Employee employee){
         Optional<Employee> employeeDB = getEmployeeById(id);
         if (employeeDB.isEmpty())
-            throw new ResourceNotFoundException("Employee not found with id: " + id);
+            return employeeDB;
 
         employeeDB.get().setEmail(employee.getEmail());
         employeeDB.get().setFirstname(employee.getFirstname());

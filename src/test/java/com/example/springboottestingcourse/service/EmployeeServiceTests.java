@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -141,7 +141,7 @@ public class EmployeeServiceTests {
         Optional<Employee> result = employeeService.getEmployeeById(999L);
 
         // Assert the result
-        assertFalse(result.isPresent());
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -150,7 +150,7 @@ public class EmployeeServiceTests {
         Optional<Employee> result = employeeService.getEmployeeById(null);
 
         // Assert the result
-        assertFalse(result.isPresent());
+        assertTrue(result.isEmpty());
     }
 
     @DisplayName("JUnit test for update employee by ID and object")
@@ -177,16 +177,14 @@ public class EmployeeServiceTests {
     @DisplayName("JUnit test for update employee by ID and object (negative scenario)")
     @Test
     public void givenEmployeeIDAndObj_whenUpdatingEmployeeByIdAndObj_thenThrowError() {
-        // given - precondition or setup
+        // Mock the repository call
+        when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        long id = 1L;
-        employee.setId(id);
-        given(employeeRepository.findById(id)).willReturn(Optional.empty());
+        // Call the service method
+        Optional<Employee> result = employeeService.updateEmployee(999L, employee);
 
-        // when - action that will be tested
-
-        org.junit.jupiter.api.Assertions.assertThrows(ResourceNotFoundException.class, () -> employeeService.updateEmployee(id, employee));
-
+        // Assert the result
+        assertFalse(result.isPresent());
     }
 
     @DisplayName("JUnit test for delete employee by ID")

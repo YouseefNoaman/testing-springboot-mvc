@@ -1,19 +1,21 @@
 package com.example.springboottestingcourse.repository;
 
 import com.example.springboottestingcourse.model.Employee;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 import java.util.Optional;
 
-@DataJpaTest    // this will only load @Repository classes and do tests with H2 in memory DB
-public class EmployeeRepositoryTests {
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DataJpaTest    // this will only load @Repository classes
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)    // this will use Mysql DB not H2 for testing, useful for pilot testing
+public class EmployeeRepositoryIT {
 
     @Autowired
     private EmployeeRepository employeeRepository;

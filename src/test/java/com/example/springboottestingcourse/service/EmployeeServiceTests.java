@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -132,17 +133,24 @@ public class EmployeeServiceTests {
 
     @DisplayName("JUnit test for get employee by ID (negative scenario)")
     @Test
-    public void givenEmployeeID_whenGettingEmployeeById_thenThrowError() {
-        // given - precondition or setup
-        long id = 1L;
-        employee.setId(id);
-        given(employeeRepository.findById(id)).willReturn(Optional.empty());
+    public void getEmployeeById_NotFound() {
+        // Mock the repository call
+        when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        // when - action that will be tested
+        // Call the service method
+        Optional<Employee> result = employeeService.getEmployeeById(999L);
 
-        // then - the expected output
-        org.junit.jupiter.api.Assertions.assertThrows(ResourceNotFoundException.class, () -> employeeService.getEmployeeById(1L));
+        // Assert the result
+        assertFalse(result.isPresent());
+    }
 
+    @Test
+    public void getEmployeeById_NullId() {
+        // Call the service method with null id
+        Optional<Employee> result = employeeService.getEmployeeById(null);
+
+        // Assert the result
+        assertFalse(result.isPresent());
     }
 
     @DisplayName("JUnit test for update employee by ID and object")

@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.testcontainers.containers.MySQLContainer;
@@ -39,6 +41,13 @@ public class EmployeeControllerIntegrationTestContainers {
      */
     private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:latest")
             .withUsername("user").withPassword("root").withDatabaseName("ems");
+
+    @DynamicPropertySource
+    public static void dynamicPropertySource(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", mysql::getJdbcUrl);
+        registry.add("spring.datasource.password", mysql::getPassword);
+        registry.add("spring.datasource.username", mysql::getUsername);
+    }
 
     @Autowired
     private MockMvc mockMvc;

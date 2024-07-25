@@ -81,7 +81,20 @@ public class EmployeeServiceTests {
         // then - the expected output
         verify(employeeRepository, never()).save(any(Employee.class));
     }
-
+    // same test
+//    @Test
+//    public void saveEmployee_AlreadyExists() {
+//        // Mock the repository call
+//        when(employeeRepository.findByEmail(employee.getEmail())).thenReturn(Optional.of(employee));
+//
+//        // Call the service method and assert the exception
+//        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+//            employeeService.saveEmployee(employee);
+//        });
+//
+//        // Assert the exception message
+//        assertEquals("Employee already found with email: " + employee.getEmail(), exception.getMessage());
+//    }
     @DisplayName("JUnit test for get all employees (positive scenario)")
     @Test
     public void givenEmployeeObjs_whenGettingEmployeeObjs_thenReturnEmployeesList() {
